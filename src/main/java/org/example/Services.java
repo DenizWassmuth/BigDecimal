@@ -3,9 +3,7 @@ package org.example;
 
 import java.math.BigDecimal;
 import java.security.SecureRandom;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -30,7 +28,7 @@ import java.util.Map;
 public class Services {
 
     private final int accountNumberLength;
-    private final String charsAllawed = "0123456789";
+    private final String charsAllowed = "0123456789";
 
    // private List<Account> accounts = new ArrayList<>();
     private Map<String, Account> accounts = new HashMap<>();
@@ -51,30 +49,33 @@ public class Services {
     }
 
     public void transfereToOtherAccount(String withdrawalAccountNumber, String depositAccountNumber, BigDecimal amount) {
-        if (accounts.isEmpty()){
+
+        if (accounts.isEmpty()) {
             System.out.println("no accounts found");
             return;
         }
 
-        if (!accounts.containsKey(withdrawalAccountNumber)){
+        if (!accounts.containsKey(withdrawalAccountNumber)) {
 
             return;
         }
 
         Account withdrawelAccount = accounts.get(withdrawalAccountNumber);
-        if (withdrawelAccount.isBroke()){
+        if (withdrawelAccount.isBroke()) {
             return;
         }
 
-        if (!accounts.containsKey(depositAccountNumber)){
+        if (!accounts.containsKey(depositAccountNumber)) {
             return;
         }
 
         Account depositAccount = accounts.get(depositAccountNumber);
 
-        BigDecimal withdrawalAmount = withdrawelAccount.withdraw(amount) ;
+        BigDecimal withdrawalAmount = withdrawelAccount.withdraw(amount);
 
         depositAccount.deposit(withdrawalAmount);
+
+        System.out.println();
     }
 
 
@@ -84,15 +85,15 @@ public class Services {
         if (accountNumberLength <= 0) {
             throw new IllegalArgumentException("length must be > 0");
         }
-        if (charsAllawed == null || charsAllawed.isEmpty()) {
+        if (charsAllowed == null || charsAllowed.isEmpty()) {
             throw new IllegalArgumentException("allowedChars must not be empty");
         }
 
         StringBuilder sb = new StringBuilder(accountNumberLength);
 
         for (int i = 0; i < accountNumberLength; i++) {
-            int index = RANDOM.nextInt(charsAllawed.length());
-            sb.append(charsAllawed.charAt(index));
+            int index = RANDOM.nextInt(charsAllowed.length());
+            sb.append(charsAllowed.charAt(index));
         }
 
         return sb.toString();
