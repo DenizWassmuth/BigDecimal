@@ -49,7 +49,35 @@ public class Services {
         return newAccount.getAccountNumber();
     }
 
-    public void transfereToOtherAccount(String withdrawalAccountNumber, String depositAccountNumber, BigDecimal amount) {
+    void printSingleAccount(String accountNumber) {
+
+        if (accounts.isEmpty()) {
+            System.out.println("There are no accounts");
+            return;
+        }
+
+        if (accounts.containsKey(accountNumber)) {
+            System.out.println(accounts.get(accountNumber));
+        }
+        else {
+            System.out.println("No entry for account number " + accountNumber + ".");
+        }
+    }
+
+    public void printAllAccounts()
+    {
+        if (accounts.isEmpty()){
+            System.out.println("There are no accounts");
+            return;
+        }
+
+        for (Account account : accounts.values())
+        {
+            System.out.println(account);
+        }
+    }
+
+    public void transferToOtherAccount(String withdrawalAccountNumber, String depositAccountNumber, BigDecimal amount) {
 
         if (accounts.isEmpty()) {
             System.out.println("no accounts found");
@@ -57,7 +85,6 @@ public class Services {
         }
 
         if (!accounts.containsKey(withdrawalAccountNumber)) {
-
             return;
         }
 
@@ -76,7 +103,10 @@ public class Services {
 
         depositAccount.deposit(withdrawalAmount);
 
-        System.out.println();
+        String withdrawalClient = withdrawelAccount.getClient().firstName() + " " + withdrawelAccount.getClient().lastName();
+        String depositClient = depositAccount.getClient().firstName() +  " " + depositAccount.getClient().lastName();
+
+        System.out.println(accounts.get(withdrawalAmount + "€ has been deposited from " + withdrawalClient + " to " + depositClient);
     }
 
 
