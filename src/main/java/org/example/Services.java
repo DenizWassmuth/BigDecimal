@@ -6,6 +6,8 @@ import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.Map;
 
+import static java.math.BigDecimal.ROUND_HALF_UP;
+
 /**
  *
  * Services – class which contains a map of accounts and methods to handle them;
@@ -45,12 +47,67 @@ public class Services {
         return accountNumberLength;
     }
 
+    public Account getAccount(String accountNumber){
+
+        if(accounts.isEmpty()){
+            return null;
+        }
+
+        return accounts.get(accountNumber);
+    }
+
     public String openNewAccount(String firstName, String lastName) {
+
         String newAccountNumber = createRandomAccountNumber();
         String newCostumerId = createRandomCustomerId();
         Account newAccount = new Account(newAccountNumber, new BigDecimal("1000.00"), new Client(firstName, lastName, newCostumerId));
         accounts.put(newAccountNumber, newAccount);
         return newAccount.getAccountNumber();
+    }
+
+    public String openSharedAccount(String firstName1, String lastName1, String firstName2, String lastName2) {
+
+        String newAccountNumber = createRandomAccountNumber();
+        String newCostumerId1 = createRandomCustomerId();
+        String newCostumerId2 = createRandomCustomerId();
+
+        Account newAccount = new Account(newAccountNumber, new BigDecimal("00.03"), new Client(firstName1, lastName1, newCostumerId1));
+        Client newClient = new Client(firstName2, lastName2, newCostumerId2);
+        newAccount.addClient(newClient);
+
+        accounts.put(newAccountNumber, newAccount);
+        return newAccountNumber;
+    }
+
+    public void splitSharedAccount(Account accountToSplit){
+
+        if(accountToSplit == null){
+            return;
+        }
+
+        if (accounts.isEmpty()){
+            return;
+        }
+
+        if (accounts.containsKey(accountToSplit.getAccountNumber())) {
+
+            int numClients = accounts.get(accountToSplit.getAccountNumber()).getClients().size();
+
+            BigDecimal currentBalance = accounts.get(accountToSplit.getAccountNumber()).getBalance();
+            BigDecimal splitBalance = currentBalance.divide(new BigDecimal(numClients),2 , ROUND_HALF_UP);
+
+            Account account = accounts.get(accountToSplit.getAccountNumber());
+            for (String clientId : account.getClients().keySet()) {
+
+                Client client = account.getClientByKey(clientId);
+                String newAccount = openNewAccount(client.firstName(), client.lastName());
+
+                accounts.get(newAccount).setBalance(splitBalance);
+            }
+        }
+
+        accounts.remove(accountToSplit.getAccountNumber());
+
     }
 
     public void addCustomerToExistingAccount(String accountNumber, Client client) {

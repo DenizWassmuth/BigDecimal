@@ -26,8 +26,8 @@
  *      Aus einem Gemeinschaftskonto sollen einzelne Konten für jeden Kontoinhaber erstellt werden. Sie soll die neu erstellten Kontonummern zurückgeben. Jedes Konto soll nach der Aufteilung den gleichen Geldbetrag erhalten (+- 1 Cent). Stelle sicher, dass die Bank während des Prozesses keine Cent-Gewinne oder -Verluste erleidet.
  * PS: Wie üblich handelt unsere Bank nicht mit halben Cent ;)
  * Tipp: Testgetriebene Entwicklung ist auch sehr nützlich, um diese Aufgabe zu lösen! (gilt auch für die folgenden Aufgaben)
- * Bonus: With-Methoden
  *
+ * Bonus: With-Methoden
  * Wenn du die Hauptaufgabe bereits abgeschlossen hast, kannst du diese Bonusaufgabe versuchen.
  * Schreibe With-Methoden (‘Wither’) für alle Eigenschaften des Animal Records.
  *
@@ -35,6 +35,7 @@
  * Eine Bank ohne Zinsen? Das geht gar nicht!
  * Erweitere den ‘BankService’ um eine Methode, die Zinsen für alle Kundenkonten basierend auf einem Zinssatz berechnet und gutschreibt.
  *      (Zinsen = Kontostand * (Zinssatz / 100)).
+ *
  * Bonus: Transaktionen
  * Kann ich bitte einen Kontoauszug haben?
  *
@@ -67,15 +68,26 @@ public class Main {
         String account3 = bankService.openNewAccount("Simon", "Jung");
         String account4 = bankService.openNewAccount("Tobias", "Ling");
 
+        String sharedAccount = bankService.openSharedAccount("Lars", "Burghaus", "Inga", "Wolftier");
+
         bankService.printAllAccounts();
 
         System.out.println();
 
-        bankService.transferToOtherAccount(account1, account2, new BigDecimal("500"));
+        bankService.transferToOtherAccount(account1, account2, new BigDecimal("500.00"));
 
         System.out.println();
 
         bankService.printSingleAccount(account1);
         bankService.printSingleAccount(account2);
+
+        System.out.println();
+
+        bankService.splitSharedAccount(bankService.getAccount(sharedAccount));
+
+        System.out.println();
+
+        bankService.printAllAccounts();
+        System.out.println();
     }
 }

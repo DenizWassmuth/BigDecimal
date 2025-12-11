@@ -55,6 +55,8 @@ public class Account {
         return clients;
     }
 
+
+
     public void addClient(Client client){
 
         if (client == null)
