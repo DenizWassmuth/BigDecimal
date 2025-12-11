@@ -8,7 +8,7 @@ import java.util.Map;
 
 /**
  *
- * PasswordValidator – kurze Beschreibung
+ * Services – class which contains a map of accounts and methods to handle them;
  * Author: Deniz Wassmuth
  * Date: 05.12.2025
  * <p>
@@ -23,6 +23,7 @@ import java.util.Map;
  * add plugin: maven-surefire
  * <p>
  * in GITHUB add Action: ... with maven
+ *
  */
 
 public class Services {

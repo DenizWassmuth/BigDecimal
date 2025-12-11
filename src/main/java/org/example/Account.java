@@ -54,6 +54,9 @@ public class Account {
     }
 
     void  deposit(BigDecimal amount) {
+        if (amount.compareTo(BigDecimal.ZERO) < 0) {
+            throw new IllegalArgumentException("Amount cannot be negative");
+        }
         balance = balance.add(amount);
     }
 
@@ -62,6 +65,10 @@ public class Account {
     }
 
     BigDecimal withdraw(BigDecimal amount) {
+
+        if (amount.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("Amount cannot be negative");
+        }
 
         if (balance.subtract(amount).compareTo(BigDecimal.ZERO) <= 0) {
             throw new IllegalArgumentException("Insufficient funds.");
