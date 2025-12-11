@@ -94,6 +94,7 @@ public class Account {
         if (amount.compareTo(BigDecimal.ZERO) < 0) {
             throw new IllegalArgumentException("Amount cannot be 0 or negative");
         }
+
         balance = balance.add(amount);
     }
 

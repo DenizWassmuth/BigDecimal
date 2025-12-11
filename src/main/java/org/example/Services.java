@@ -184,9 +184,12 @@ public class Services {
     private String createRandomString(int length, String charsAllowed){
         SecureRandom RANDOM = new SecureRandom();
 
+        // TODO: UUID??
+
         if (length <= 0) {
             throw new IllegalArgumentException("length must be > 0");
         }
+
         if (charsAllowed == null || charsAllowed.isEmpty()) {
             throw new IllegalArgumentException("allowedChars must not be empty");
         }
