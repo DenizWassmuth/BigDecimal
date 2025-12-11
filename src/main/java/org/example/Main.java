@@ -60,18 +60,22 @@ import java.math.BigDecimal;
 public class Main {
     static void main() {
 
-       Services bankService = new Services(12);
+        Services bankService = new Services(12, 5);
 
-      String account1 = bankService.openNewAccount("Tobias", "Neuer");
-      String account2 = bankService.openNewAccount("Laura", "Hermann");
-      String account3 = bankService.openNewAccount("Simon", "Jung");
-      String account4 = bankService.openNewAccount("Tobias", "Ling");
+        String account1 = bankService.openNewAccount("Tobias", "Neuer");
+        String account2 = bankService.openNewAccount("Laura", "Hermann");
+        String account3 = bankService.openNewAccount("Simon", "Jung");
+        String account4 = bankService.openNewAccount("Tobias", "Ling");
 
-       bankService.printAllAccounts();
+        bankService.printAllAccounts();
 
-       bankService.transferToOtherAccount(account1, account2, new BigDecimal("500"));
+        System.out.println();
 
-       bankService.printSingleAccount(account1);
-       bankService.printSingleAccount(account2);
+        bankService.transferToOtherAccount(account1, account2, new BigDecimal("500"));
+
+        System.out.println();
+
+        bankService.printSingleAccount(account1);
+        bankService.printSingleAccount(account2);
     }
 }

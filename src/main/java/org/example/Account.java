@@ -2,6 +2,8 @@ package org.example;
 
 
 import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -28,12 +30,13 @@ public class Account {
 
     private final String accountNumber;
     private BigDecimal balance;
-    private Client client;
+    private Map<String, Client> clients;
 
     public Account(String accountNumber, BigDecimal balance, Client client) {
         this.accountNumber = accountNumber;
         this.balance = balance;
-        this.client = client;
+        this.clients = new HashMap<>();
+        clients.put(client.customerId(),client);
     }
 
     public String getAccountNumber() {
@@ -43,15 +46,46 @@ public class Account {
     public BigDecimal getBalance() {
         return balance;
     }
+
     public void setBalance(BigDecimal balance) {
         this.balance = balance;
     }
 
-    Client getClient() {
-        return client;
+    public Map<String, Client> getClients(){
+        return clients;
     }
-    void setClient(Client client) {
-        this.client = client;
+
+    public void addClient(Client client){
+
+        if (client == null)
+        {
+            return;
+        }
+
+        if(clients.containsKey(client.customerId())){
+            return;
+        }
+
+        clients.put(client.customerId(),client);
+
+        System.out.println("New client: " + client + " has been added to the account:" + this);
+    }
+
+    Client getClientByKey(String customerId) {
+
+        if (clients.isEmpty()){
+            return null;
+        }
+
+        if (clients.containsKey(customerId)) {
+            return clients.get(customerId);
+        }
+
+        return null;
+    }
+
+    void setClientByKey(String customerId, Client client) {
+        this.clients.put(customerId, client);
     }
 
     void  deposit(BigDecimal amount) {
@@ -71,10 +105,6 @@ public class Account {
             throw new IllegalArgumentException("Amount cannot be 0 or negative");
         }
 
-//        if (balance.subtract(amount).compareTo(BigDecimal.ZERO) <= 0) {
-//            throw new IllegalArgumentException("Insufficient funds.");
-//        }
-
         balance = balance.subtract(amount);
         return amount;
     }
@@ -83,12 +113,12 @@ public class Account {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Account account = (Account) o;
-        return Objects.equals(accountNumber, account.accountNumber) && Objects.equals(balance, account.balance) && Objects.equals(client, account.client);
+        return Objects.equals(accountNumber, account.accountNumber) && Objects.equals(balance, account.balance) && Objects.equals(clients, account.clients);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(accountNumber, balance, client);
+        return Objects.hash(accountNumber, balance, clients);
     }
 
     @Override
@@ -96,7 +126,7 @@ public class Account {
         return "Account{" +
                 "accountNumber='" + accountNumber + '\'' +
                 ", balance=" + balance +
-                ", client=" + client +
+                ", client=" + clients +
                 '}';
     }
 }

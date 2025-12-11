@@ -29,13 +29,16 @@ import java.util.Map;
 public class Services {
 
     private final int accountNumberLength;
-    private final String charsAllowed = "0123456789";
+    private final int idLength;
+    private final String accountCharsAllowed = "0123456789";
+    private final String idCharsAllowed = "0123456789";
 
    // private List<Account> accounts = new ArrayList<>();
     private Map<String, Account> accounts = new HashMap<>();;
 
-    public Services(int accountNumberLength) {
+    public Services(int accountNumberLength, int idLength) {
         this.accountNumberLength = accountNumberLength;
+        this.idLength = idLength;
     }
 
     public int getAccountNumberLength() {
@@ -44,9 +47,27 @@ public class Services {
 
     public String openNewAccount(String firstName, String lastName) {
         String newAccountNumber = createRandomAccountNumber();
-        Account newAccount = new Account(newAccountNumber, new BigDecimal("1000.00"), new Client(firstName, lastName, newAccountNumber));
+        String newCostumerId = createRandomCustomerId();
+        Account newAccount = new Account(newAccountNumber, new BigDecimal("1000.00"), new Client(firstName, lastName, newCostumerId));
         accounts.put(newAccountNumber, newAccount);
         return newAccount.getAccountNumber();
+    }
+
+    public void addCustomerToExistingAccount(String accountNumber, Client client) {
+
+        if(client == null) {
+            return;
+        }
+
+        //TODO: maybe create new account?
+        if (accounts.isEmpty()) {
+            return;
+        }
+
+        if (accounts.containsKey(accountNumber)) {
+            Account account = accounts.get(accountNumber);
+            account.addClient(client);
+        }
     }
 
     void printSingleAccount(String accountNumber) {
@@ -88,9 +109,6 @@ public class Services {
             return;
         }
 
-        // if (withdrawelAccount.isBroke()) {
-        //   return;
-        // }
 
         if (!accounts.containsKey(depositAccountNumber)) {
             return;
@@ -102,30 +120,35 @@ public class Services {
         BigDecimal withdrawalAmount = withdrawelAccount.withdraw(amount);
         depositAccount.deposit(withdrawalAmount);
 
-        String withdrawalClient = withdrawelAccount.getClient().firstName() + " " + withdrawelAccount.getClient().lastName();
-        String depositClient = depositAccount.getClient().firstName() +  " " + depositAccount.getClient().lastName();
 
-        System.out.println(accounts.get(withdrawalAmount + "€ has been deposited from " + withdrawalClient + " to " + depositClient));
+        System.out.println(withdrawalAmount + "€ withdrawn from " + withdrawelAccount + " and deposited to " + depositAccount);
     }
 
-
-    private String createRandomAccountNumber() {
+    private String createRandomString(int length, String charsAllowed){
         SecureRandom RANDOM = new SecureRandom();
 
-        if (accountNumberLength <= 0) {
+        if (length <= 0) {
             throw new IllegalArgumentException("length must be > 0");
         }
         if (charsAllowed == null || charsAllowed.isEmpty()) {
             throw new IllegalArgumentException("allowedChars must not be empty");
         }
 
-        StringBuilder sb = new StringBuilder(accountNumberLength);
+        StringBuilder sb = new StringBuilder(length);
 
-        for (int i = 0; i < accountNumberLength; i++) {
+        for (int i = 0; i < length; i++) {
             int index = RANDOM.nextInt(charsAllowed.length());
             sb.append(charsAllowed.charAt(index));
         }
 
         return sb.toString();
+    }
+
+    private String createRandomAccountNumber() {
+        return createRandomString(accountNumberLength, accountCharsAllowed);
+    }
+
+    private String createRandomCustomerId() {
+        return createRandomString(idLength, idCharsAllowed);
     }
 }
