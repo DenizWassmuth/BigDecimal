@@ -1,4 +1,5 @@
 /**
+ *
  * Programmierung: BankService Setup
  * Erstelle ein neues Java-Projekt in IntelliJ und implementiere die folgende Aufgabe, um einen einfachen BankService und ein Kundenkonto zu modellieren.
  *
@@ -47,7 +48,9 @@
  * Für jede Abhebungs- oder Einzahlungsaktion sollen die seit der letzten Transaktion angefallenen Zinsen berechnet werden.
  *      Der im BankService gespeicherte Zinssatz soll den jährlichen Zinssatz darstellen. Achte auf den Zinseszinseffekt
  *      (bei 4% Zinsen sind nach einem halben Jahr nicht ganz 2% angefallen).
- *      Erstelle für jede Transaktion eine zweite Transaktion für Zinsgutschriften (oder Zinsbelastungen).*/
+ *      Erstelle für jede Transaktion eine zweite Transaktion für Zinsgutschriften (oder Zinsbelastungen).
+ *
+ *      */
 
 
 package org.example;

@@ -6,7 +6,7 @@ import java.util.Objects;
 
 /**
  *
- * PasswordValidator – kurze Beschreibung
+ * Account
  * Author: Deniz Wassmuth
  * Date: 05.12.2025
  * <p>
@@ -21,6 +21,7 @@ import java.util.Objects;
  * add plugin: maven-surefire
  * <p>
  * in GITHUB add Action: ... with maven
+ *
  */
 
 public class Account {
