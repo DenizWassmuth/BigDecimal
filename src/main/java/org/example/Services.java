@@ -32,7 +32,7 @@ public class Services {
     private final String charsAllowed = "0123456789";
 
    // private List<Account> accounts = new ArrayList<>();
-    private Map<String, Account> accounts = new HashMap<>();
+    private Map<String, Account> accounts = new HashMap<>();;
 
     public Services(int accountNumberLength) {
         this.accountNumberLength = accountNumberLength;
@@ -88,25 +88,24 @@ public class Services {
             return;
         }
 
-        Account withdrawelAccount = accounts.get(withdrawalAccountNumber);
-        if (withdrawelAccount.isBroke()) {
-            return;
-        }
+        // if (withdrawelAccount.isBroke()) {
+        //   return;
+        // }
 
         if (!accounts.containsKey(depositAccountNumber)) {
             return;
         }
 
+        Account withdrawelAccount = accounts.get(withdrawalAccountNumber);
         Account depositAccount = accounts.get(depositAccountNumber);
 
         BigDecimal withdrawalAmount = withdrawelAccount.withdraw(amount);
-
         depositAccount.deposit(withdrawalAmount);
 
         String withdrawalClient = withdrawelAccount.getClient().firstName() + " " + withdrawelAccount.getClient().lastName();
         String depositClient = depositAccount.getClient().firstName() +  " " + depositAccount.getClient().lastName();
 
-        System.out.println(accounts.get(withdrawalAmount + "€ has been deposited from " + withdrawalClient + " to " + depositClient);
+        System.out.println(accounts.get(withdrawalAmount + "€ has been deposited from " + withdrawalClient + " to " + depositClient));
     }
 
 
